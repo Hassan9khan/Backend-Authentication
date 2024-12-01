@@ -13,7 +13,7 @@ const registerUser = asyncHandler(async (req , res) => {
         })
     }
 
-    const userAvailable = await User.findOne( email )
+    const userAvailable = await User.findOne( {email} )
     if(userAvailable){
         res.status(400).json({
             message: "user already registered"
