@@ -4,7 +4,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 
 const registerUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
+//   console.log(req.body);
 
   const { username, email, password } = req.body;
   if (!username || !email || !password) {
@@ -51,13 +51,13 @@ const registerUser = asyncHandler(async (req, res) => {
 //   });
 // };
 
-const loginUser = asyncHandler(async (req, res) => {
-  // console.log(req.body);
+// const loginUser = asyncHandler(async (req, res) => {
+//   // console.log(req.body);
 
-  res.status(201).json({
-    message: "login the user",
-  });
-});
+//   res.status(201).json({
+//     message: "login the user",
+//   });
+// });
 
 const loginUser = async (req , res ) => {
     const { email , password } = req.body
