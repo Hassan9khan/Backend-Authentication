@@ -13,15 +13,18 @@ const registerUser = asyncHandler(async (req, res) => {
     });
   }
 
-  const userAvailable = await User.findOne({ email });
-  if (userAvailable) {
-    res.status(400).json({
-      message: "user already registered",
-    });
-  }
+  if(User) return res.status(401).json({
+    message: "user already exist"
+  })
+//   const userAvailable = await User.findOne({ email });
+//   if (userAvailable) {
+//     res.status(400).json({
+//       message: "user already registered",
+//     });
+//   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-  console.log("Hashed Password : ", hashedPassword);
+//   const hashedPassword = await bcrypt.hash(password, 10);
+//   console.log("Hashed Password : ", hashedPassword);
 
   res.status(201).json({
     message: "register the user",
@@ -55,6 +58,22 @@ const loginUser = asyncHandler(async (req, res) => {
     message: "login the user",
   });
 });
+
+const loginUser = async (req , res ) => {
+    const { email , password } = req.body
+
+    if(!email) return res.status(400).json({message: "email required" })
+    if(!password) return res.status(400).json({message: "password required"})
+
+    // email mujood hai ya nahi
+    const user = await User.finOne({ email })    
+    if(!user) return res.status(404).json({message: "no user found"})
+    
+    // password compare karwenge bcrpyt
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+    
+    if(!isPasswordValid){}
+}
 
 const currentUser = asyncHandler(async (req, res) => {
   res.status(200).json({
