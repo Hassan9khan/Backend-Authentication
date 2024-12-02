@@ -1,4 +1,4 @@
-import express, { json } from "express"
+import express from "express"
 import router from "./routes/userRoute.js"
 import cors from "cors"
 import dotenv from "dotenv"
