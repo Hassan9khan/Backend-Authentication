@@ -1,11 +1,8 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt"
 
-const userSchema = mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
-    username: {
-      type: String,
-      required: [true, "please add the username"],
-    },
     email: {
       type: String,
       required: [true, "please add the email address"],
@@ -16,9 +13,6 @@ const userSchema = mongoose.Schema(
       required: [true, "please add the password"],
     },
   },
-  {
-    timestamps: true,
-  }
 );
 
 userSchema.pre("save", async function (next) {
