@@ -1,4 +1,4 @@
-import User from "../models/userModel.js"
+import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -71,11 +71,27 @@ const loginUser = async (req, res) => {
   });
 };
 
-
 // LOGOUT USER
-const logoutUser = async (req , res) => {
-  res.clearCookie("refreshToken")
-  res.json({message: "logout successfully"})
-}
+const logoutUser = async (req, res) => {
+  res.clearCookie("refreshToken");
+  res.json({ message: "logout successfully" });
+};
 
-export { registerUser, loginUser , logoutUser };
+// RefreshToken
+const refreshToken = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
+  if (!refreshToken)
+    return res.status(401).json({ message: "no refresh token found" });
+
+  const decodedToken = jwt.verify(refreshToken , process.env.REFRESH_JWT_SECRET)
+
+  const user = await User.findOne({email : decodedToken.email})
+
+  if(!user) return res.status(404).json({message : "invalid token"})
+
+    const generateToken = generateAccessToken(user)
+    res.json({ message: "access token generated" , accessToken: generateToken,})
+
+};
+
+export { registerUser, loginUser, logoutUser , refreshToken};
