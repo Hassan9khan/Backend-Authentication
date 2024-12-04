@@ -4,17 +4,17 @@ import jwt from "jsonwebtoken";
 
 const generateAccessToken = (user) => {
   return jwt.sign({ email: user.email }, process.env.ACCESS_JWT_SECRET, {
-    expiersIn: "6h",
+    expiresIn: "6h",
   });
 };
 
 const generateRefreshToken = (user) => {
   return jwt.sign({ email: user.email }, process.env.REFRESH_JWT_SECRET, {
-    expiersIn: "7d",
+    expiresIn: "7d",
   });
 };
 
-// class register user
+//  register user
 
 const registerUser = async (req, res) => {
   const { email, password } = req.body;
