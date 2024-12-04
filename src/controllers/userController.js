@@ -71,4 +71,11 @@ const loginUser = async (req, res) => {
   });
 };
 
-export { registerUser, loginUser };
+
+// LOGOUT USER
+const logoutUser = async (req , res) => {
+  res.clearCookie("refreshToken")
+  res.json({message: "logout successfully"})
+}
+
+export { registerUser, loginUser , logoutUser };
