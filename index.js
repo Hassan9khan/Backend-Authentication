@@ -14,11 +14,14 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.send("Hello chalo");
 });
 
 // routes
 app.use("/api/users", router);
+
+
+
 
 connectDB()
   .then(() => {

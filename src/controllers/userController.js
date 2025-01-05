@@ -1,6 +1,9 @@
 import User from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import cloudinary from "cloudinary";
+import fs from "fs"
+
 
 const generateAccessToken = (user) => {
   return jwt.sign({ email: user.email }, process.env.ACCESS_JWT_SECRET, {
@@ -12,6 +15,54 @@ const generateRefreshToken = (user) => {
   return jwt.sign({ email: user.email }, process.env.REFRESH_JWT_SECRET, {
     expiresIn: "7d",
   });
+};
+
+
+// Configuration
+cloudinary.config({
+  cloud_name: "dwulca9py",
+  api_key: "897861889527989",
+  api_secret: "-iBNSHRwRZfnkyAoYQ0LJ3dAYqY",
+});
+
+// Upload an image
+const uploadImageToCloud = async (localpath) => {
+  try {
+    const uploadResult = await cloudinary.uploader.upload(localpath, {
+      resource_type: "auto",
+    });
+    fs.unlinkSync(localpath);
+    return uploadResult.url;
+  } catch (error) {
+    fs.unlikeSync(localpath);
+    return null;
+  }
+};
+
+//upload image
+
+const uploadImage = async (req, res) => {
+  if (!req.file)
+    return res.status(400).json({
+      message: "no image file uploaded ",
+    });
+
+  try {
+    const uploadResult = await uploadImageToCloud(req.file.path);
+
+    if (!uploadResult)
+      return res.status(500).json({
+        message: "error occured while uploading image",
+      });
+
+    res.json({
+      message: "image upload successfully",
+      url: uploadResult,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "error occured while uploading image" });
+  }
 };
 
 //  register user
@@ -94,4 +145,4 @@ const refreshToken = async (req, res) => {
 
 };
 
-export { registerUser, loginUser, logoutUser , refreshToken};
+export { registerUser, loginUser, logoutUser , refreshToken , uploadImage };
