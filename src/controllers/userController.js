@@ -11,6 +11,7 @@ const generateAccessToken = (user) => {
   });
 };
 
+// generate
 const generateRefreshToken = (user) => {
   return jwt.sign({ email: user.email }, process.env.REFRESH_JWT_SECRET, {
     expiresIn: "7d",
