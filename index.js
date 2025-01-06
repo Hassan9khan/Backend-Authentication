@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
-import router from "./src/routes/userRoute.js"
+import userRouter from "./src/routes/userRoute.js"
+import productRouter from "./src/routes/productRoute.js"
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import connectDB from "./src/db/index.js";
@@ -18,7 +19,8 @@ app.get("/", (req, res) => {
 });
 
 // routes
-app.use("/api/users", router);
+app.use("/api/", userRouter);
+app.use("/api/", productRouter);
 
 
 
