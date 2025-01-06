@@ -19,7 +19,6 @@ export const createOrder = async (req, res) => {
   }
 
   try {
-    // Check if the user exists
     const userExists = await User.findById(user);
     if (!userExists) {
       return res.status(404).json({ message: "User not found." });

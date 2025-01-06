@@ -8,14 +8,14 @@ import cookieParser from "cookie-parser";
 import connectDB from "./src/db/index.js";
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-  res.send("Hello chalo");
+  res.send("E-Commerce App Backend");
 });
 
 // routes
