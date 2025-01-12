@@ -1,9 +1,9 @@
 import Order from "../models/orderModel.js";
-import Product from "../models/productModel.js";
+import Product from "../models/productsModel.js";
 import User from "../models/userModel.js";
 
-// Create a new order
-export const createOrder = async (req, res) => {
+// Create order
+const createOrder = async (req, res) => {
   const { user, products, totalPrice } = req.body;
 
   if (
@@ -31,11 +31,9 @@ export const createOrder = async (req, res) => {
           .json({ message: `Product not found for ID: ${item.product}` });
       }
       if (item.quantity <= 0) {
-        return res
-          .status(400)
-          .json({
-            message: `Invalid quantity for product ID: ${item.product}`,
-          });
+        return res.status(400).json({
+          message: `Invalid quantity for product ID: ${item.product}`,
+        });
       }
     }
     // Create the order
@@ -53,21 +51,21 @@ export const createOrder = async (req, res) => {
 };
 
 // Get all orders
-export const getAllOrders = async (req, res) => {
+const getAllOrders = async (req, res) => {
   try {
     const orders = await Order.find()
-      .populate("user", "username email") // Populate user details
-      .populate("products.product", "name price"); // Populate product details
-    res.status(200).json({ message: "Orders retrieved successfully", orders });
+      .populate("user", "username email")
+      .populate("products.product", "name price");
+    res.status(200).json({ message: "Orders recieved successfully", orders });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error retrieving orders", error: error.message });
+      .json({ message: "Error recieving orders", error: error.message });
   }
 };
 
 // Get a single order by ID
-export const getOrderById = async (req, res) => {
+const getOrderById = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -77,16 +75,16 @@ export const getOrderById = async (req, res) => {
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
-    res.status(200).json({ message: "Order retrieved successfully", order });
+    res.status(200).json({ message: "Order recieved successfully", order });
   } catch (error) {
     res
       .status(500)
-      .json({ message: "Error retrieving order", error: error.message });
+      .json({ message: "Error recieving order", error: error.message });
   }
 };
 
 // Update an order's status
-export const updateOrderStatus = async (req, res) => {
+const updateOrderStatus = async (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
 
@@ -104,12 +102,10 @@ export const updateOrderStatus = async (req, res) => {
     if (!updatedOrder) {
       return res.status(404).json({ message: "Order not found" });
     }
-    res
-      .status(200)
-      .json({
-        message: "Order status updated successfully",
-        order: updatedOrder,
-      });
+    res.status(200).json({
+      message: "Order status updated successfully",
+      order: updatedOrder,
+    });
   } catch (error) {
     res
       .status(500)
@@ -118,7 +114,7 @@ export const updateOrderStatus = async (req, res) => {
 };
 
 // Delete an order
-export const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -139,7 +135,7 @@ export const deleteOrder = async (req, res) => {
 export {
   createOrder,
   getAllOrders,
-  getOrderById,
-  updateOrderStatus,
   deleteOrder,
+  updateOrderStatus,
+  getOrderById,
 };

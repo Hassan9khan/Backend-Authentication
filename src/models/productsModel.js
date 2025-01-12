@@ -25,7 +25,7 @@ const productSchema = new mongoose.Schema(
     orderPlaced: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "order",
+        ref: "Order",
       },
     ],
   },
