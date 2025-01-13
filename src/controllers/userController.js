@@ -172,6 +172,7 @@ const getUserById = async (req, res) => {
   }
 };
 
+//Logout user
 const logoutUser = async (req, res) => {
   res.clearCookie("refreshToken");
   res.json({ message: "Logged out successfully" });
